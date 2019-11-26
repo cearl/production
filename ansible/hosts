@@ -1,3 +1,4 @@
 [all]
-node1
-node2
+node1 ansible_ssh_private_key_file=/root/.ssh/cmm_ke ansible_user=cearl
+node2 ansible_ssh_private_key_file=/root/.ssh/cmm_key ansible_user=cearl
+localhost

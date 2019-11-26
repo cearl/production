@@ -42,10 +42,3 @@
         name: puppet
         enabled: yes
 
-- hosts: localhost
-  remote_user: cearl
-  become: yes
-  tasks:
-    - name: Sign any puppet certs needed
-      shell: /opt/puppetlabs/bin/puppetserver ca sign --all 2>&1 > /dev/null   
-      ignore_errors: yes

@@ -1,0 +1,51 @@
+- hosts: node1
+  remote_user: cearl
+  become: yes
+  tasks:
+    - name: install puppet
+      package:
+        name:
+          - puppet-agent
+          - vim
+          - telnet
+        state: latest
+
+
+- hosts: node2
+  remote_user: cearl
+  become: yes
+  tasks:
+    - name: install puppet
+      package:
+        name:
+          - puppet
+          - vim
+          - telnet
+        state: latest
+
+- hosts: node1, node2
+  remote_user: cearl
+  become: yes
+  tasks:
+    - name: hosts entry for puppet
+      lineinfile:
+        path: /etc/hosts
+        line: '172.16.8.6 puppet'
+
+    - name: Start puppet
+      service:
+        name: puppet
+        state: started
+
+    - name: Enable puppet
+      service:
+        name: puppet
+        enabled: yes
+
+- hosts: localhost
+  remote_user: cearl
+  become: yes
+  tasks:
+    - name: Sign any puppet certs needed
+      shell: /opt/puppetlabs/bin/puppetserver ca sign --all 2>&1 > /dev/null   
+      ignore_errors: yes
